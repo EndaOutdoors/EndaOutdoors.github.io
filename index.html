@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order — Enda Outdoors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --slate: #2b3a42;
+    --forest: #1c2b22;
+    --stone: #8c9a8e;
+    --sand: #d4c9b0;
+    --white: #f5f2ed;
+    --accent: #4a7c6f;
+    --accent-light: #6aada0;
+    --danger: #c05a3a;
+    --border: rgba(140,154,142,0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .hero-images {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: brightness(0.55) saturate(0.8);
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(28,43,34,0.1) 0%,
+      rgba(28,43,34,0.0) 30%,
+      rgba(28,43,34,0.85) 80%,
+      rgba(28,43,34,1) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-bottom: 36px;
+  }
+
+  .hero-logo {
+    width: 220px;
+    filter: brightness(0) invert(1);
+    margin-bottom: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ── CONTAINER ── */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--accent-light);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    margin-top: 40px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── PRODUCT CARD ── */
+  .product-card {
+    background: rgba(43,58,66,0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    backdrop-filter: blur(6px);
+    margin-top: 28px;
+  }
+
+  .product-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: top center;
+    flex-shrink: 0;
+    filter: saturate(0.7);
+  }
+
+  .product-info h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .product-info p {
+    font-size: 13px;
+    color: var(--stone);
+    line-height: 1.5;
+  }
+
+  .product-price {
+    margin-left: auto;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--accent-light);
+    white-space: nowrap;
+  }
+
+  /* ── FORM FIELDS ── */
+  .field {
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 6px;
+  }
+
+  label span.req { color: var(--accent-light); margin-left: 3px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    background: rgba(43,58,66,0.7);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 12px 14px;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-light);
+    background: rgba(43,58,66,1);
+  }
+
+  select option { background: var(--slate); color: var(--white); }
+
+  /* ── SIZE PICKER ── */
+  .size-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .size-option { display: none; }
+
+  .size-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--stone);
+    user-select: none;
+  }
+
+  .size-option:checked + .size-label {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .size-label:hover { border-color: var(--accent-light); color: var(--white); }
+
+  /* ── DELIVERY TOGGLE ── */
+  .delivery-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .delivery-radio { display: none; }
+
+  .delivery-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: rgba(43,58,66,0.5);
+  }
+
+  .delivery-card:hover { border-color: var(--accent-light); }
+
+  .delivery-radio:checked + .delivery-card {
+    border-color: var(--accent);
+    background: rgba(74,124,111,0.2);
+  }
+
+  .delivery-card .d-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .delivery-card .d-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: var(--accent-light);
+    margin-top: 6px;
+  }
+
+  .delivery-card .d-note {
+    font-size: 12px;
+    color: var(--stone);
+    margin-top: 2px;
+  }
+
+  /* ── ORDER SUMMARY ── */
+  .summary-box {
+    background: rgba(74,124,111,0.12);
+    border: 1px solid rgba(106,173,160,0.3);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 32px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--stone);
+    margin-bottom: 8px;
+  }
+
+  .summary-row.total {
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 4px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 0.05em;
+  }
+
+  .summary-row.total span:last-child { color: var(--accent-light); }
+
+  /* ── VENMO SECTION ── */
+  .venmo-box {
+    background: rgba(43,58,66,0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .venmo-handle {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.1em;
+    color: var(--accent-light);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 4px;
+    transition: color 0.2s;
+  }
+
+  .venmo-handle:hover { color: #fff; }
+
+  .venmo-qr {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin: 18px auto 14px;
+    display: block;
+    background: white;
+    padding: 10px;
+  }
+
+  .venmo-note {
+    font-size: 13px;
+    color: var(--sand);
+    background: rgba(212,201,176,0.1);
+    border: 1px solid rgba(212,201,176,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  .venmo-note strong { color: var(--white); }
+
+  /* ── SUBMIT BUTTON ── */
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 28px;
+  }
+
+  .submit-btn:hover { background: var(--accent-light); }
+  .submit-btn:active { transform: scale(0.99); }
+
+  /* ── DISCLAIMER ── */
+  .disclaimer {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--stone);
+    letter-spacing: 0.1em;
+    margin-top: 22px;
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .success-screen.visible { display: block; }
+  .success-screen h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .success-screen p { color: var(--stone); font-size: 15px; line-height: 1.6; }
+
+  /* ── SHIPPING FIELDS ── */
+  #shipping-fields { display: none; }
+  #shipping-fields.visible { display: block; }
+
+  /* ── GRID ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  @media (max-width: 520px) {
+    .two-col { grid-template-columns: 1fr; }
+    .delivery-options { grid-template-columns: 1fr; }
+    .hero { height: 320px; }
+    .hero-logo { width: 170px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-images">
+    <img class="hero-img" src="IMG_1625.JPG" alt="Enda Outdoors model 1">
+    <img class="hero-img" src="IMG_1630.jpg" alt="Enda Outdoors model 2">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <img class="hero-logo" src="Updated_Back_Logo.png" alt="Enda Outdoors">
+    <p class="hero-tagline">Premium Outdoor Apparel &nbsp;·&nbsp; Order Form</p>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<div class="container">
+
+  <form id="orderForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+    <!-- Hidden fields for order summary -->
+    <input type="hidden" name="_subject" value="New Enda Outdoors T-Shirt Order">
+    <input type="hidden" name="order_total" id="hidden_total">
+    <input type="hidden" name="delivery_type" id="hidden_delivery">
+
+    <!-- PRODUCT -->
+    <div class="product-card">
+      <img class="product-thumb" src="IMG_1625.JPG" alt="Enda Outdoors Tee">
+      <div class="product-info">
+        <h2>Classic Tee</h2>
+        <p>100% Cotton · Unisex Fit<br>Enda Outdoors Mountain Logo</p>
+      </div>
+      <div class="product-price" id="displayPrice">$25</div>
+    </div>
+
+    <!-- PERSONAL INFO -->
+    <div class="section-label">Your Info</div>
+
+    <div class="two-col">
+      <div class="field">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" name="first_name" required placeholder="Jane">
+      </div>
+      <div class="field">
+        <label>Last Name <span class="req">*</span></label>
+        <input type="text" name="last_name" required placeholder="Smith">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Email Address <span class="req">*</span></label>
+      <input type="email" name="email" required placeholder="jane@email.com">
+    </div>
+
+    <!-- SIZE -->
+    <div class="section-label">Select Size</div>
+    <div class="field">
+      <div class="size-grid">
+        <input class="size-option" type="radio" name="size" id="sz-xs" value="XS" required>
+        <label class="size-label" for="sz-xs">XS</label>
+
+        <input class="size-option" type="radio" name="size" id="sz-s" value="S">
+        <label class="size-label" for="sz-s">S</label>
+
+        <input class="size-option" type="radio" name="size" id="sz-m" value="M">
+        <label class="size-label" for="sz-m">M</label>
+
+        <input class="size-option" type="radio" name="size" id="sz-l" value="L">
+        <label class="size-label" for="sz-l">L</label>
+
+        <input class="size-option" type="radio" name="size" id="sz-xl" value="XL">
+        <label class="size-label" for="sz-xl">XL</label>
+
+        <input class="size-option" type="radio" name="size" id="sz-xxl" value="XXL">
+        <label class="size-label" for="sz-xxl">XXL</label>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:14px;">
+      <label>Quantity <span class="req">*</span></label>
+      <input type="number" name="quantity" id="quantityField" value="1" min="1" max="10" required>
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="section-label">Delivery Method</div>
+    <div class="delivery-options">
+
+      <div>
+        <input class="delivery-radio" type="radio" name="delivery" id="del-local" value="Local Pickup (Broome County, NY)" checked>
+        <label class="delivery-card" for="del-local">
+          <div class="d-title">📍 Local Delivery</div>
+          <div class="d-price">FREE</div>
+          <div class="d-note">Broome County, NY only</div>
+        </label>
+      </div>
+
+      <div>
+        <input class="delivery-radio" type="radio" name="delivery" id="del-ship" value="CONUS Shipping">
+        <label class="delivery-card" for="del-ship">
+          <div class="d-title">📦 CONUS Shipping</div>
+          <div class="d-price">+$9.00</div>
+          <div class="d-note">Continental US</div>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- SHIPPING ADDRESS (shown if CONUS selected) -->
+    <div id="shipping-fields">
+      <div class="section-label">Shipping Address</div>
+
+      <div class="field">
+        <label>Street Address <span class="req">*</span></label>
+        <input type="text" name="address_street" id="addr_street" placeholder="123 Main St">
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>City <span class="req">*</span></label>
+          <input type="text" name="address_city" id="addr_city" placeholder="City">
+        </div>
+        <div class="field">
+          <label>State <span class="req">*</span></label>
+          <input type="text" name="address_state" id="addr_state" placeholder="NY" maxlength="2">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>ZIP Code <span class="req">*</span></label>
+        <input type="text" name="address_zip" id="addr_zip" placeholder="13901" maxlength="10">
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="summary-box">
+      <div class="summary-row">
+        <span>T-Shirt (×<span id="sumQty">1</span>)</span>
+        <span id="sumShirt">$25.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span id="sumShipping">FREE</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="sumTotal">$25.00</span>
+      </div>
+    </div>
+
+    <!-- VENMO PAYMENT -->
+    <div class="section-label">Payment via Venmo</div>
+
+    <div class="venmo-box">
+      <a class="venmo-handle" href="https://venmo.com/Endaoutdoors" target="_blank" rel="noopener">@Endaoutdoors</a>
+      <p style="font-size:12px;color:var(--stone);">Tap to open Venmo or scan the QR code below</p>
+      <img class="venmo-qr" src="Venmo_QR_Code.pdf" alt="Venmo QR Code — @Endaoutdoors">
+      <div class="venmo-note">
+        ⚠️ <strong>Important:</strong> Please include the <strong>name on your order</strong> in the Venmo payment note so we can match your payment to your order.
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="submit-btn">Place My Order →</button>
+
+    <p class="disclaimer">
+      ⏱ Orders take an average of 2–4 weeks for delivery<br>
+      All sales final · Questions? DM us on Instagram
+    </p>
+
+  </form>
+
+  <!-- SUCCESS MESSAGE -->
+  <div class="success-screen" id="successScreen">
+    <img src="Updated_Back_Logo.png" alt="Enda Outdoors" style="width:160px;filter:brightness(0) invert(1);margin-bottom:28px;">
+    <h2>Order Received!</h2>
+    <p>Thanks for your order. Please complete payment via Venmo <strong>@Endaoutdoors</strong><br>and remember to include your name in the note.<br><br>Orders ship in 2–4 weeks. We appreciate the support! 🏔</p>
+  </div>
+
+</div>
+
+<script>
+  const shirtPrice = 25;
+  const shippingPrice = 9;
+
+  const qtyField = document.getElementById('quantityField');
+  const delLocal = document.getElementById('del-local');
+  const delShip = document.getElementById('del-ship');
+  const shippingFields = document.getElementById('shipping-fields');
+
+  const sumQty = document.getElementById('sumQty');
+  const sumShirt = document.getElementById('sumShirt');
+  const sumShipping = document.getElementById('sumShipping');
+  const sumTotal = document.getElementById('sumTotal');
+  const displayPrice = document.getElementById('displayPrice');
+  const hiddenTotal = document.getElementById('hidden_total');
+  const hiddenDelivery = document.getElementById('hidden_delivery');
+
+  // Shipping address required fields
+  const shippingInputs = ['addr_street','addr_city','addr_state','addr_zip'];
+
+  function updateSummary() {
+    const qty = parseInt(qtyField.value) || 1;
+    const isShipping = delShip.checked;
+    const shirtTotal = qty * shirtPrice;
+    const shipCost = isShipping ? shippingPrice : 0;
+    const total = shirtTotal + shipCost;
+
+    sumQty.textContent = qty;
+    sumShirt.textContent = `$${shirtTotal.toFixed(2)}`;
+    sumShipping.textContent = isShipping ? `$${shippingPrice.toFixed(2)}` : 'FREE';
+    sumTotal.textContent = `$${total.toFixed(2)}`;
+    displayPrice.textContent = `$${shirtPrice}`;
+    hiddenTotal.value = `$${total.toFixed(2)}`;
+    hiddenDelivery.value = isShipping ? 'CONUS Shipping (+$9.00)' : 'Local Delivery - Broome County NY (Free)';
+
+    // Show/hide shipping address fields
+    if (isShipping) {
+      shippingFields.classList.add('visible');
+      shippingInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.required = true;
+      });
+    } else {
+      shippingFields.classList.remove('visible');
+      shippingInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.required = false; el.value = ''; }
+      });
+    }
+  }
+
+  qtyField.addEventListener('input', updateSummary);
+  delLocal.addEventListener('change', updateSummary);
+  delShip.addEventListener('change', updateSummary);
+  updateSummary();
+
+  // Formspree AJAX submit
+  const form = document.getElementById('orderForm');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Validate size selected
+    const sizeSelected = document.querySelector('input[name="size"]:checked');
+    if (!sizeSelected) {
+      alert('Please select a size before submitting.');
+      return;
+    }
+
+    updateSummary(); // ensure hidden fields are current
+
+    const btn = form.querySelector('.submit-btn');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    const data = new FormData(form);
+
+    try {
+      const resp = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (resp.ok) {
+        form.style.display = 'none';
+        document.getElementById('successScreen').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        btn.textContent = 'Place My Order →';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again or DM us on Instagram.');
+      }
+    } catch {
+      btn.textContent = 'Place My Order →';
+      btn.disabled = false;
+      alert('Network error. Please check your connection and try again.');
+    }
+  });
+</script>
+
+</body>
+</html>
