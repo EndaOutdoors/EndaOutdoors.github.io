@@ -474,7 +474,7 @@
 
 <div class="page">
 
-  <form id="orderForm" action="https://formspree.io/f/xqegpden" method="POST">
+  <form id="orderForm" action="https://formspree.io/f/qegpden" method="POST">
 
     <input type="hidden" name="_subject" value="New Enda Outdoors T-Shirt Order">
     <input type="hidden" name="order_total" id="h_total">
@@ -558,27 +558,25 @@
       </div>
     </div>
 
-    <!-- SHIPPING ADDRESS -->
-    <div id="shipping-fields">
-      <div class="section-label">Shipping Address</div>
+    <!-- ADDRESS — always shown -->
+    <div class="section-label">Your Address</div>
+    <div class="field">
+      <label class="field-label">Street Address <span class="req">*</span></label>
+      <input type="text" name="address_street" id="a_street" placeholder="123 Main St" required>
+    </div>
+    <div class="two-col">
       <div class="field">
-        <label class="field-label">Street Address <span class="req">*</span></label>
-        <input type="text" name="address_street" id="a_street" placeholder="123 Main St">
-      </div>
-      <div class="two-col">
-        <div class="field">
-          <label class="field-label">City <span class="req">*</span></label>
-          <input type="text" name="address_city" id="a_city" placeholder="City">
-        </div>
-        <div class="field">
-          <label class="field-label">State <span class="req">*</span></label>
-          <input type="text" name="address_state" id="a_state" placeholder="NY" maxlength="2">
-        </div>
+        <label class="field-label">City <span class="req">*</span></label>
+        <input type="text" name="address_city" id="a_city" placeholder="City" required>
       </div>
       <div class="field">
-        <label class="field-label">ZIP Code <span class="req">*</span></label>
-        <input type="text" name="address_zip" id="a_zip" placeholder="13901" maxlength="10">
+        <label class="field-label">State <span class="req">*</span></label>
+        <input type="text" name="address_state" id="a_state" placeholder="NY" maxlength="2" required>
       </div>
+    </div>
+    <div class="field">
+      <label class="field-label">ZIP Code <span class="req">*</span></label>
+      <input type="text" name="address_zip" id="a_zip" placeholder="13901" maxlength="10" required>
     </div>
 
     <!-- ORDER SUMMARY -->
@@ -648,8 +646,6 @@
 <script>
   const SHIRT = 25, SHIP = 9;
   const qtyEl      = document.getElementById('qty');
-  const shipFields = document.getElementById('shipping-fields');
-  const shipIds    = ['a_street','a_city','a_state','a_zip'];
   let   isShipping = false;
 
   function selectDelivery(mode) {
@@ -659,13 +655,6 @@
     document.getElementById('delivery-val').value = isShipping
       ? 'CONUS Shipping (+$9.00)'
       : 'Local Delivery — Broome County, NY (Free)';
-    if (isShipping) {
-      shipFields.classList.add('show');
-      shipIds.forEach(id => { const el = document.getElementById(id); if(el) el.required = true; });
-    } else {
-      shipFields.classList.remove('show');
-      shipIds.forEach(id => { const el = document.getElementById(id); if(el) { el.required = false; el.value = ''; } });
-    }
     calc();
   }
 
